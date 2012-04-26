@@ -4,14 +4,12 @@
  Author:         Torsten Feld
  Website:		 Feldstudie.net
  GitHub:		 https://github.com/torstenfeld/EasyBoxWpaCalc
-ToDo's:			 https://trello.com/board/easyboxwpacalc/4f9914dbee51e08c3b85952d
+ ToDo's:		 https://trello.com/board/easyboxwpacalc/4f9914dbee51e08c3b85952d
 
  Script Function:
 	Calculates WPA default key for several EasyBox WLan routers
 
 #ce ----------------------------------------------------------------------------
-
-; Script Start - Add your code below here
 
 #include <ButtonConstants.au3>
 #include <EditConstants.au3>
@@ -43,6 +41,10 @@ Func _Main()
 	$Button_Calc = GUICtrlCreateButton("Calculate", 328, 248, 75, 25, $WS_GROUP)
 	GUISetState(@SW_SHOW)
 	#EndRegion ### END Koda GUI section ###
+
+	; testing
+	GUICtrlSetData($Input_Ssid, "Arcor-910B02")
+	GUICtrlSetData($Input_Mac, "00:12:BF:91:0B:EC")
 
 	While 1
 		$nMsg = GUIGetMsg()
@@ -79,9 +81,9 @@ Func _CalcKey($lSsid, $lMac, ByRef $lKey)
 	Local $lY1, $lY2, $lY3
 	Local $lZ1, $lZ2, $lZ3
 
-	Local $laMacArray = StringSplit($lMac, ":") ; split the mac address by ;
+	$lMac = StringReplace($lMac, ":", "") ; removes : of mac address
 
-	$lC1 = Dec($laMacArray[$laMacArray[0]-1] & $laMacArray[$laMacArray[0]])
+	$lC1 = Dec(StringMid($lMac, 9, 2) & StringMid($lMac, 11, 2))
 	For $i = StringLen($lC1) To 4 ; fills with leading 0 until $lC1 is 5 chars
 		$lC1 = "0" & $lC1
 	Next
@@ -91,8 +93,6 @@ Func _CalcKey($lSsid, $lMac, ByRef $lKey)
 	$lS8 = StringMid($lC1, 3, 1)
 	$lS9 = StringMid($lC1, 4, 1)
 	$lS10 = StringMid($lC1, 5, 1)
-
-	$lMac = StringReplace($lMac, ":", "")
 
 	$lM7 = StringMid($lMac, 7, 1)
 	$lM8 = StringMid($lMac, 8, 1)
