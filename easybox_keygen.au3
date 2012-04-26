@@ -4,6 +4,7 @@
  Author:         Torsten Feld
  Website:		 Feldstudie.net
  GitHub:		 https://github.com/torstenfeld/EasyBoxWpaCalc
+ToDo's:			 https://trello.com/board/easyboxwpacalc/4f9914dbee51e08c3b85952d
 
  Script Function:
 	Calculates WPA default key for several EasyBox WLan routers
@@ -51,10 +52,20 @@ Func _Main()
 			Case $Button_Calc
 				$lSsid = GUICtrlRead($Input_Ssid)
 				$lMac = GUICtrlRead($Input_Mac)
+				If Not _CheckInputMac($lMac) Then
+					MsgBox(16, "Error", "Please enter MAC address in format: " & @CRLF & "01:23:45:67:89:AB")
+					ContinueLoop
+				EndIf
 				_CalcKey($lSsid, $lMac, $lKey)
 				GUICtrlSetData($Input_Key, $lKey)
 		EndSwitch
 	WEnd
+
+EndFunc
+
+Func _CheckInputMac($lMac) ; returns true if Mac is ok
+
+	Return StringRegExp($lMac, "^([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])$")
 
 EndFunc
 
