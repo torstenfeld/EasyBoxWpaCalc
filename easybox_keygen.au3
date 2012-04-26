@@ -60,6 +60,8 @@ Func _Main()
 				EndIf
 				_CalcKey($lSsid, $lMac, $lKey)
 				GUICtrlSetData($Input_Key, $lKey)
+				ClipPut($lKey) ; copies key into clipboard
+				MsgBox(64,"Info","WPA key has been copied to your clipboard.")
 		EndSwitch
 	WEnd
 
