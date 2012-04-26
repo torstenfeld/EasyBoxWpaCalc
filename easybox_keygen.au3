@@ -38,7 +38,7 @@ Func _Main()
 	$Input_Key = GUICtrlCreateInput("", 128, 200, 225, 21, BitOR($ES_CENTER,$ES_AUTOHSCROLL,$ES_READONLY))
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$Button_Exit = GUICtrlCreateButton("Exit", 408, 248, 75, 25, $WS_GROUP)
-	$Button_Calc = GUICtrlCreateButton("Calculate", 328, 248, 75, 25, $WS_GROUP)
+	$Button_Calc = GUICtrlCreateButton("Calculate", 328, 248, 75, 25, BitOR($WS_GROUP, $BS_DEFPUSHBUTTON))
 	GUISetState(@SW_SHOW)
 	#EndRegion ### END Koda GUI section ###
 
