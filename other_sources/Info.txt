@@ -1,0 +1,13 @@
+Alle Quellcodes/Skripte stehen unter GPL v3.
+
+easybox_keygen.c    - C Source             - Sebastian Petters
+easybox_keygen.asm  - X86 ASM Source       - Sebastian Petters
+easybox_keygen.bas  - FreeBasic Source     - Sebastian Petters
+easybox_keygen.php  - PHP Script           - Sebastian Petters
+easybox_keygen.py   - Python-Script        - maknoll @ https://gist.github.com/2040414 / Sebastian Petters
+easybox_keygen.sh   - Bash Shell-Skript    - Stefan W. / Sebastian Petters
+easybox_keygen.java - Java Source          - Lutz Schildmann / Sebastian Petters
+easybox_keygen.bat  - Windows Batch Skript - noface @ http://www.wardriving-forum.de / Sebastian Petters 
+
+
+http://www.wotan.cc
