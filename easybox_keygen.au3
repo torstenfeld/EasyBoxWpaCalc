@@ -1,3 +1,10 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_outfile=EasyBox_keygen.exe
+#AutoIt3Wrapper_Res_Comment=EasyBox KeyGen for Standard WPA2-Password
+#AutoIt3Wrapper_Res_Description=EasyBox KeyGen for Standard WPA2-Password
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.0
+#AutoIt3Wrapper_Res_LegalCopyright=Torsten Feld / Feldstudie.net
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #cs ----------------------------------------------------------------------------
 
  AutoIt Version: 3.3.8.1
@@ -43,8 +50,8 @@ Func _Main()
 	#EndRegion ### END Koda GUI section ###
 
 	; testing
-	GUICtrlSetData($Input_Ssid, "Arcor-910B02")
-	GUICtrlSetData($Input_Mac, "00:12:BF:91:0B:EC")
+;~ 	GUICtrlSetData($Input_Ssid, "Arcor-910B02")
+;~ 	GUICtrlSetData($Input_Mac, "00:12:BF:91:0B:EC")
 
 	While 1
 		$nMsg = GUIGetMsg()
