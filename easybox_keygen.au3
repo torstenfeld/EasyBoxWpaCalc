@@ -2,7 +2,8 @@
 #AutoIt3Wrapper_outfile=EasyBox_keygen.exe
 #AutoIt3Wrapper_Res_Comment=EasyBox KeyGen for Standard WPA2-Password
 #AutoIt3Wrapper_Res_Description=EasyBox KeyGen for Standard WPA2-Password
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.0
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.2
+#AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=Torsten Feld / Feldstudie.net
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #cs ----------------------------------------------------------------------------
@@ -62,7 +63,7 @@ Func _Main()
 				$lSsid = GUICtrlRead($Input_Ssid)
 				$lMac = GUICtrlRead($Input_Mac)
 				If Not _CheckInputMac($lMac) Then
-					MsgBox(16, "Error", "Please enter MAC address in format: " & @CRLF & "01:23:45:67:89:AB")
+					MsgBox(16, "Error", "Please enter MAC address in format: " & @CRLF & "01:23:45:67:89:AB" & @CRLF & "or" & @CRLF & "0123456789AB" & @CRLF & "or" & @CRLF & "01-23-45-67-89-AB")
 					ContinueLoop
 				EndIf
 				_CalcKey($lMac, $lSsid, $lKey)
@@ -77,7 +78,7 @@ EndFunc
 
 Func _CheckInputMac($lMac) ; returns true if Mac is ok
 
-	Return StringRegExp($lMac, "^([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])$")
+	Return StringRegExp($lMac, "^([0-9a-fA-F][0-9a-fA-F][:-]?){5}([0-9a-fA-F][0-9a-fA-F])$")
 
 EndFunc
 
@@ -92,6 +93,7 @@ Func _CalcKey($lMac, ByRef $lSsid, ByRef $lKey)
 	Local $lZ1, $lZ2, $lZ3
 
 	$lMac = StringReplace($lMac, ":", "") ; removes : of mac address
+	$lMac = StringReplace($lMac, "-", "") ; removes - of mac address
 
 	$lC1 = Dec(StringMid($lMac, 9, 2) & StringMid($lMac, 11, 2))
 	For $i = StringLen($lC1) To 4 ; fills with leading 0 until $lC1 is 5 chars
