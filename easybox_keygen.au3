@@ -33,19 +33,19 @@ Func _Main()
 	Local $lSsid, $lMac, $lKey
 
 	#Region ### START Koda GUI section ### Form=
-	$Form_Main = GUICreate("EasyBox WPA Calculator", 491, 284, 192, 124)
-	$Group_Input = GUICtrlCreateGroup("Input", 16, 80, 465, 89)
-	$Label1 = GUICtrlCreateLabel("SSID:", 32, 104, 32, 17)
-	$Input_Ssid = GUICtrlCreateInput("Insert SSID here", 128, 104, 225, 21)
-	$Label2 = GUICtrlCreateLabel("MAC:", 32, 136, 30, 17)
-	$Input_Mac = GUICtrlCreateInput("Insert MAC address here", 128, 136, 225, 21)
+	$Form_Main = GUICreate("EasyBox WPA Calculator", 492, 285, 192, 124)
+	$Group_Input = GUICtrlCreateGroup("Input", 16, 80, 465, 57)
+	$Label2 = GUICtrlCreateLabel("MAC:", 32, 104, 30, 17)
+	$Input_Mac = GUICtrlCreateInput("Insert MAC address here", 128, 104, 225, 21)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	$Group2 = GUICtrlCreateGroup("Output", 16, 176, 465, 65)
+	$Group2 = GUICtrlCreateGroup("Output", 16, 144, 465, 97)
 	$Label3 = GUICtrlCreateLabel("Key:", 32, 200, 25, 17)
 	$Input_Key = GUICtrlCreateInput("", 128, 200, 225, 21, BitOR($ES_CENTER,$ES_AUTOHSCROLL,$ES_READONLY))
+	$Input_Ssid = GUICtrlCreateInput("", 128, 168, 225, 21, BitOR($ES_CENTER, $ES_AUTOHSCROLL,$ES_READONLY))
+	$Label1 = GUICtrlCreateLabel("SSID:", 32, 168, 32, 17)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	$Button_Exit = GUICtrlCreateButton("Exit", 408, 248, 75, 25, $WS_GROUP)
-	$Button_Calc = GUICtrlCreateButton("Calculate", 328, 248, 75, 25, BitOR($WS_GROUP, $BS_DEFPUSHBUTTON))
+	$Button_Calc = GUICtrlCreateButton("Calculate", 328, 248, 75, 25, BitOR($BS_DEFPUSHBUTTON,$WS_GROUP))
 	GUISetState(@SW_SHOW)
 	#EndRegion ### END Koda GUI section ###
 
@@ -65,8 +65,9 @@ Func _Main()
 					MsgBox(16, "Error", "Please enter MAC address in format: " & @CRLF & "01:23:45:67:89:AB")
 					ContinueLoop
 				EndIf
-				_CalcKey($lSsid, $lMac, $lKey)
+				_CalcKey($lMac, $lSsid, $lKey)
 				GUICtrlSetData($Input_Key, $lKey)
+				GUICtrlSetData($Input_Ssid, $lSsid)
 				ClipPut($lKey) ; copies key into clipboard
 				MsgBox(64,"Info","WPA key has been copied to your clipboard.")
 		EndSwitch
@@ -80,7 +81,7 @@ Func _CheckInputMac($lMac) ; returns true if Mac is ok
 
 EndFunc
 
-Func _CalcKey($lSsid, $lMac, ByRef $lKey)
+Func _CalcKey($lMac, ByRef $lSsid, ByRef $lKey)
 
 	Local $lC1
 	Local $lS6, $lS7, $lS8, $lS9, $lS10
@@ -124,5 +125,7 @@ Func _CalcKey($lSsid, $lMac, ByRef $lKey)
 	$lZ3 = StringRight(Hex(BitXOR(Dec($lK1), Dec($lK2))), 1)
 
 	$lKey = $lX1 & $lY1 & $lZ1 & $lX2 & $lY2 & $lZ2 & $lX3 & $lY3 & $lZ3
+
+	$lSsid = "Vendor-" & $lM7 & $lM8 & $lM9 & $lM10 & $lS6 & $lS10
 
 EndFunc
