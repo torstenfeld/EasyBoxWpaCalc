@@ -3,6 +3,7 @@
  AutoIt Version: 3.3.8.1
  Author:         Torsten Feld
  Website:		 Feldstudie.net
+ GitHub:		 https://github.com/torstenfeld/EasyBoxWpaCalc
 
  Script Function:
 	Calculates WPA default key for several EasyBox WLan routers
@@ -17,10 +18,9 @@
 #include <StaticConstants.au3>
 #include <WindowsConstants.au3>
 
-
+#include <Array.au3>
 
 _Main()
-
 
 Func _Main()
 
@@ -43,10 +43,6 @@ Func _Main()
 	GUISetState(@SW_SHOW)
 	#EndRegion ### END Koda GUI section ###
 
-	; testing
-	GUICtrlSetData($Input_Ssid, "Arcor-910B02")
-	GUICtrlSetData($Input_Mac, "00:12:BF:91:0B:EC")
-
 	While 1
 		$nMsg = GUIGetMsg()
 		Switch $nMsg
@@ -60,16 +56,53 @@ Func _Main()
 		EndSwitch
 	WEnd
 
-
-
 EndFunc
 
 Func _CalcKey($lSsid, $lMac, ByRef $lKey)
 
-	; testing
-	$lKey = $lSsid & $lMac
+	Local $lC1
+	Local $lS6, $lS7, $lS8, $lS9, $lS10
+	Local $lM7, $lM8, $lM9, $lM10, $lM11, $lM12
+	Local $lK1, $lK2
+	Local $lX1, $lX2, $lX3
+	Local $lY1, $lY2, $lY3
+	Local $lZ1, $lZ2, $lZ3
 
-	Return 0
+	Local $laMacArray = StringSplit($lMac, ":") ; split the mac address by ;
 
+	$lC1 = Dec($laMacArray[$laMacArray[0]-1] & $laMacArray[$laMacArray[0]])
+	For $i = StringLen($lC1) To 4 ; fills with leading 0 until $lC1 is 5 chars
+		$lC1 = "0" & $lC1
+	Next
+
+	$lS6 = StringMid($lC1, 1, 1)
+	$lS7 = StringMid($lC1, 2, 1)
+	$lS8 = StringMid($lC1, 3, 1)
+	$lS9 = StringMid($lC1, 4, 1)
+	$lS10 = StringMid($lC1, 5, 1)
+
+	$lMac = StringReplace($lMac, ":", "")
+
+	$lM7 = StringMid($lMac, 7, 1)
+	$lM8 = StringMid($lMac, 8, 1)
+	$lM9 = StringMid($lMac, 9, 1)
+	$lM10 = StringMid($lMac, 10, 1)
+	$lM11 = StringMid($lMac, 11, 1)
+	$lM12 = StringMid($lMac, 12, 1)
+
+	$lK1 = StringRight(Hex(Dec($lS7) + Dec($lS8) + Dec($lM11) + Dec($lM12)), 1)
+	$lK2 = StringRight(Hex(Dec($lM9) + Dec($lM10) + Dec($lS9) + Dec($lS10)), 1)
+
+	$lX1 = StringRight(Hex(BitXOR(Dec($lK1), Dec($lS10))), 1)
+	$lX2 = StringRight(Hex(BitXOR(Dec($lK1), Dec($lS9))), 1)
+	$lX3 = StringRight(Hex(BitXOR(Dec($lK1), Dec($lS8))), 1)
+	$lY1 = StringRight(Hex(BitXOR(Dec($lK2), Dec($lM10))), 1)
+	$lY2 = StringRight(Hex(BitXOR(Dec($lK2), Dec($lM11))), 1)
+	$lY3 = StringRight(Hex(BitXOR(Dec($lK2), Dec($lM12))), 1)
+	$lZ1 = StringRight(Hex(BitXOR(Dec($lM11), Dec($lS10))), 1)
+	$lZ2 = StringRight(Hex(BitXOR(Dec($lM12), Dec($lS9))), 1)
+	$lZ3 = StringRight(Hex(BitXOR(Dec($lK1), Dec($lK2))), 1)
+
+	$lKey = $lX1 & $lY1 & $lZ1 & $lX2 & $lY2 & $lZ2 & $lX3 & $lY3 & $lZ3
 
 EndFunc
